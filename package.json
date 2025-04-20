@@ -28,7 +28,7 @@
     "electron-store": "^10.0.1",
     "install": "^0.13.0",
     "npm": "^11.3.0",
-    "@bitaxeorg/axe-os-lib": "0.0.4"
+    "@bitaxeorg/axe-os-lib": "0.0.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.8",

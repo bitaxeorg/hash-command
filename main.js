@@ -15,9 +15,6 @@ log.initialize();
 
 Object.assign(console, log.functions);
 
-let win;
-let views = [];
-
 const createWindow = () => {
     // Create the browser window.
     // const win = new BrowserWindow({
@@ -34,19 +31,24 @@ const createWindow = () => {
     //     win.loadFile(path.join(__dirname, 'public-pool-ui', 'dist', 'public-pool-ui', 'index.html'));
     // });
 
-    //win.webContents.openDevTools();
+    
 
-    win = new BaseWindow({ width: 1200, height: 800 });
+    const win = new BaseWindow({ width: 1200, height: 800 });
 
     const view1 = new WebContentsView();
     win.contentView.addChildView(view1);
-    view1.webContents.loadURL('https://electronjs.org');
+    view1.webContents.loadFile(path.join(__dirname,  'dist', 'hash-commander','browser', 'index.html'));
     view1.setBounds({ x: 0, y: 0, width: 400, height: 400 });
-    
+
     const view2 = new WebContentsView();
     win.contentView.addChildView(view2);
-    view2.webContents.loadURL('https://github.com/electron/electron');
+    view2.webContents.loadURL('https://electronjs.org');
     view2.setBounds({ x: 400, y: 0, width: 400, height: 400 });
+    
+    const view3 = new WebContentsView();
+    win.contentView.addChildView(view3);
+    view3.webContents.loadURL('https://github.com/electron/electron');
+    view3.setBounds({ x: 800, y: 0, width: 400, height: 400 });
 
     // win.webContents.session.webRequest.onBeforeSendHeaders(
     // (details, callback) => {
@@ -62,6 +64,8 @@ const createWindow = () => {
     //     },
     // });
     // });
+
+    view1.webContents.openDevTools();
 }
 
 
