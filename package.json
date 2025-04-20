@@ -1,9 +1,11 @@
 {
   "name": "hash-commander",
   "version": "0.0.0",
+  "description": "",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "electron .",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -20,7 +22,13 @@
     "@angular/router": "^18.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.14.10",
+    "electron-log": "^5.3.4",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^10.0.1",
+    "install": "^0.13.0",
+    "npm": "^11.3.0",
+    "@bitaxeorg/axe-os-lib": "0.0.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.1",
@@ -33,6 +41,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.5.2"
+    "typescript": "~5.5.2",
+    "electron": "^35.2.0"
   }
 }
