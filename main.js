@@ -38,17 +38,25 @@ const createWindow = () => {
     const view1 = new WebContentsView();
     win.contentView.addChildView(view1);
     view1.webContents.loadFile(path.join(__dirname,  'dist', 'hash-commander','browser', 'index.html'));
-    view1.setBounds({ x: 0, y: 0, width: 400, height: 400 });
 
-    const view2 = new WebContentsView();
-    win.contentView.addChildView(view2);
-    view2.webContents.loadURL('https://electronjs.org');
-    view2.setBounds({ x: 400, y: 0, width: 400, height: 400 });
+    const updateBounds = () => {
+        const { width, height } = win.getContentBounds();
+        view1.setBounds({ x: 0, y: 0, width, height });
+    };
+
+    updateBounds(); // Initial sizing
+    win.on('resize', updateBounds); // Update on resize
     
-    const view3 = new WebContentsView();
-    win.contentView.addChildView(view3);
-    view3.webContents.loadURL('https://github.com/electron/electron');
-    view3.setBounds({ x: 800, y: 0, width: 400, height: 400 });
+
+    // const view2 = new WebContentsView();
+    // win.contentView.addChildView(view2);
+    // view2.webContents.loadURL('https://electronjs.org');
+    // view2.setBounds({ x: 400, y: 0, width: 400, height: 400 });
+    
+    // const view3 = new WebContentsView();
+    // win.contentView.addChildView(view3);
+    // view3.webContents.loadURL('https://github.com/electron/electron');
+    // view3.setBounds({ x: 800, y: 0, width: 400, height: 400 });
 
     // win.webContents.session.webRequest.onBeforeSendHeaders(
     // (details, callback) => {

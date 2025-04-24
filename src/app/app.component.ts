@@ -4,7 +4,7 @@ import {AxeOsThemeComponent } from '@bitaxeorg/axe-os-lib';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, AxeOsThemeComponent],
+    imports: [RouterOutlet, AxeOsThemeComponent, ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })
