@@ -87,7 +87,7 @@ const createWindow = () => {
     // });
     // });
 
-    view1.webContents.openDevTools();
+    //view1.webContents.openDevTools();
 }
 
 ipcMain.handle('get-ip-address', () => {
