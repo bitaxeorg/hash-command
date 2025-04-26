@@ -40,7 +40,8 @@ const createWindow = () => {
 
     win = new BaseWindow({ 
       width: 1200, 
-      height: 800
+      height: 800,
+      autoHideMenuBar: true
     });
 
     const view1 = new WebContentsView({
