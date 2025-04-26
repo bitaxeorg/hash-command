@@ -13,7 +13,7 @@ export class AppComponent {
 
   public menuItems = [
     {
-        label: 'Menu',
+        label: '~$',
         items: [
             // { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
             { label: 'Swarm', icon: 'pi pi-fw pi-share-alt', routerLink: ['swarm'] },

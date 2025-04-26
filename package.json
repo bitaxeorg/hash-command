@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^19.2.7",
     "@angular/platform-browser-dynamic": "^19.2.7",
     "@angular/router": "^19.2.7",
-    "@bitaxeorg/axe-os-lib": "0.0.10",
+    "@bitaxeorg/axe-os-lib": "0.0.11",
     "electron-log": "^5.3.4",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^10.0.1",

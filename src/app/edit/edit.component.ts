@@ -3,28 +3,29 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { startWith, Subject, takeUntil } from 'rxjs';
-import {Checkbox} from 'primeng/checkbox';
+import {Checkbox, CheckboxModule} from 'primeng/checkbox';
 import {Select} from 'primeng/select';
 import {Dropdown} from 'primeng/dropdown'
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { eASICModel } from '../models/enum/eASICModel';
 import { SystemService } from '../services/system.service';
 import { LoadingService } from '../services/loading.service';
 import { HashSuffixPipe } from '../pipes/hash-suffix.pipe';
 import { DateAgoPipe } from '../pipes/date-ago.pipe';
-import { Slider } from 'primeng/slider';
+import { SliderModule } from 'primeng/slider';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
-import {Message} from 'primeng/message';
+import {MessageModule} from 'primeng/message';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
   standalone: true,
-  imports: [Slider, Checkbox, CommonModule, ReactiveFormsModule, FormsModule, DropdownModule, Message],
-  providers: [FormBuilder, LoadingService, SystemService, ToastrService, ActivatedRoute]
+  imports: [SliderModule, CheckboxModule, CommonModule, ReactiveFormsModule, FormsModule, DropdownModule, MessageModule, ButtonModule ],
+  providers: [FormBuilder, LoadingService, SystemService, ToastrService]
 })
 export class EditComponent implements OnInit, OnDestroy {
 

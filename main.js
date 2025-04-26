@@ -18,6 +18,8 @@ log.initialize();
 
 Object.assign(console, log.functions);
 
+let win;
+
 const createWindow = () => {
     // Create the browser window.
     // const win = new BrowserWindow({
@@ -36,7 +38,7 @@ const createWindow = () => {
 
     
 
-    const win = new BaseWindow({ width: 1200, height: 800 });
+    win = new BaseWindow({ width: 1200, height: 800 });
 
     const view1 = new WebContentsView({
         webPreferences: {
@@ -103,13 +105,15 @@ function getLocalIp() {
 
 
 app.whenReady().then(() => {
+    
     setTimeout(() => {
         createWindow();
     }, 3000);
+
     app.on('activate', () => {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
-        if (BrowserWindow.getAllWindows().length === 0) {
+        if (BaseWindow.getAllWindows().length === 0) {
             createWindow();
         }
     })
