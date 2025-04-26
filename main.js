@@ -1,5 +1,8 @@
 // main.js
 const { app, BaseWindow, WebContentsView } = require('electron')
+const { networkInterfaces } = require('os');
+const { ipcMain } = require('electron');
+
 // run this as early in the main process as possible
 if (require('electron-squirrel-startup')) {
     app.quit();
@@ -35,7 +38,13 @@ const createWindow = () => {
 
     const win = new BaseWindow({ width: 1200, height: 800 });
 
-    const view1 = new WebContentsView();
+    const view1 = new WebContentsView({
+        webPreferences: {
+          preload: path.join(__dirname, 'preload.js'),
+          contextIsolation: true,
+          nodeIntegration: false,
+        }
+      });
     win.contentView.addChildView(view1);
     view1.webContents.loadFile(path.join(__dirname,  'dist', 'hash-commander','browser', 'index.html'));
 
@@ -73,8 +82,24 @@ const createWindow = () => {
     // });
     // });
 
-    view1.webContents.openDevTools();
+    //view1.webContents.openDevTools();
 }
+
+ipcMain.handle('get-ip-address', () => {
+    return getLocalIp();
+  });
+
+function getLocalIp() {
+    const nets = networkInterfaces();
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name] || []) {
+        if (net.family === 'IPv4' && !net.internal) {
+          return net.address;
+        }
+      }
+    }
+  }
+  
 
 
 app.whenReady().then(() => {
@@ -97,26 +122,26 @@ app.whenReady().then(() => {
 
         Object.assign(process.env, env)
 
-        const nestProcess = utilityProcess.fork(serverPath);
+        // const nestProcess = utilityProcess.fork(serverPath);
     
-        // nestProcess.stderr.on('data', function(data) {
-        //     console.log('stdout: ' + data);
+        // // nestProcess.stderr.on('data', function(data) {
+        // //     console.log('stdout: ' + data);
+        // // });
+    
+    
+        // // Handle errors from the child process
+        // nestProcess.on('error', (err) => {
+        //     console.error('Failed to start NestJS server process:', err);
         // });
     
+        // // Handle exit of the child process
+        // nestProcess.on('exit', (code, signal) => {
+        //     console.log(`NestJS server process exited with code ${code} and signal ${signal}`);
+        // });
     
-        // Handle errors from the child process
-        nestProcess.on('error', (err) => {
-            console.error('Failed to start NestJS server process:', err);
-        });
-    
-        // Handle exit of the child process
-        nestProcess.on('exit', (code, signal) => {
-            console.log(`NestJS server process exited with code ${code} and signal ${signal}`);
-        });
-    
-        nestProcess.on('close', (code) => {
-            console.log(`NestJS server process exited with code ${code}`);
-        });
+        // nestProcess.on('close', (code) => {
+        //     console.log(`NestJS server process exited with code ${code}`);
+        // });
     
     
         // Quit when all windows are closed, except on macOS. There, it's common
@@ -128,9 +153,9 @@ app.whenReady().then(() => {
             }
         });
     
-        app.on('will-quit', () => {
-            nestProcess.kill();
-        });
+        // app.on('will-quit', () => {
+        //     nestProcess.kill();
+        // });
     
     });
 })
