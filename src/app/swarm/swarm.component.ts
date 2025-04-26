@@ -119,13 +119,17 @@ export class SwarmComponent implements OnInit, OnDestroy {
   }
 
   scanNetwork() {
-    window.electronAPI.getIpAddress().then((ip) =>{
+    window.electronAPI.getIpAddress().then((interfaceAddresses) =>{
 
-      console.log('Scanning: ' + ip);
+      console.log('Scanning: ' + interfaceAddresses);
       this.scanning = true;
 
-      const { start, end } = this.calculateIpRange(ip, '255.255.255.0');
-      const ips = Array.from({ length: end - start + 1 }, (_, i) => this.intToIp(start + i));
+      let ips = interfaceAddresses.reduce((pre,cur,i,a) =>{
+        const { start, end } = this.calculateIpRange(cur, '255.255.255.0');
+        const ipBlock = Array.from({ length: end - start + 1 }, (_, i) => this.intToIp(start + i));
+        return [...pre, ...ipBlock];
+      }, [] as string[]);
+
       from(ips).pipe(
         mergeMap(ipAddr =>
           this.httpClient.get(`http://${ipAddr}/api/system/info`).pipe(

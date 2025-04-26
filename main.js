@@ -87,7 +87,7 @@ const createWindow = () => {
     // });
     // });
 
-    //view1.webContents.openDevTools();
+    view1.webContents.openDevTools();
 }
 
 ipcMain.handle('get-ip-address', () => {
@@ -96,13 +96,16 @@ ipcMain.handle('get-ip-address', () => {
 
 function getLocalIp() {
     const nets = networkInterfaces();
+    const addresses = [];
+    console.log(nets);
     for (const name of Object.keys(nets)) {
       for (const net of nets[name] || []) {
-        if (net.family === 'IPv4' && !net.internal) {
-          return net.address;
+        if (net.family === 'IPv4' && !net.internal && net.address != '127.0.0.1') {
+          addresses.push(net.address);
         }
       }
     }
+    return addresses;
   }
   
 
