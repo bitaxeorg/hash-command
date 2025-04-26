@@ -48,7 +48,7 @@ const createWindow = () => {
         }
       });
     win.contentView.addChildView(view1);
-    view1.webContents.loadFile(path.join(__dirname,  'dist', 'hash-commander','browser', 'index.html'));
+    view1.webContents.loadFile(path.join(__dirname,  'dist', 'hash-command','browser', 'index.html'));
 
     const updateBounds = () => {
         const { width, height } = win.getContentBounds();

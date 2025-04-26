@@ -9,7 +9,7 @@ import {AppLayoutComponent, AppMenuComponent, AppTopBarComponent, AxeOsThemeComp
     styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'hash-commander';
+  title = 'hash-command';
 
   public menuItems = [
     {
