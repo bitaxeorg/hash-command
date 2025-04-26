@@ -38,7 +38,10 @@ const createWindow = () => {
 
     
 
-    win = new BaseWindow({ width: 1200, height: 800 });
+    win = new BaseWindow({ 
+      width: 1200, 
+      height: 800
+    });
 
     const view1 = new WebContentsView({
         webPreferences: {
