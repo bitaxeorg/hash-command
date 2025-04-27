@@ -102,7 +102,7 @@ function getLocalIp() {
     for (const name of Object.keys(nets)) {
       for (const net of nets[name] || []) {
         if (net.family === 'IPv4' && !net.internal && net.address != '127.0.0.1') {
-          addresses.push(net.address);
+          addresses.push({address: net.address, netmask: net.netmask});
         }
       }
     }

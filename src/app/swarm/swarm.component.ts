@@ -125,10 +125,13 @@ export class SwarmComponent implements OnInit, OnDestroy {
       this.scanning = true;
 
       let ips = interfaceAddresses.reduce((pre,cur,i,a) =>{
-        const { start, end } = this.calculateIpRange(cur, '255.255.255.0');
+        const { start, end } = this.calculateIpRange(cur.address, cur.netmask);
         const ipBlock = Array.from({ length: end - start + 1 }, (_, i) => this.intToIp(start + i));
         return [...pre, ...ipBlock];
       }, [] as string[]);
+
+      // deduplicate
+      ips = Array.from(new Set(ips));
 
       from(ips).pipe(
         mergeMap(ipAddr =>

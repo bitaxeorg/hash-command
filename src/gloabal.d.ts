@@ -1,5 +1,5 @@
 interface Window {
     electronAPI: {
-      getIpAddress: () => Promise<string[]>;
+      getIpAddress: () => Promise<{address: string, netmask: string}[]>;
     };
   }
