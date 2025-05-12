@@ -1,0 +1,10 @@
+.wrap-text {
+    white-space: pre-wrap;
+    /* Preserve whitespace and newlines, but allow wrapping */
+    word-wrap: break-word;
+    /* Break long words to wrap text inside container */
+    word-break: break-word;
+    /* Break words when they are too long to fit */
+    max-width: 100%;
+    /* Make sure it doesn't exceed the container width */
+}

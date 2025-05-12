@@ -1,0 +1,34 @@
+<div class="grid">
+    <div class="col-12">
+        <ng-container *ngIf="!listening">
+            <form [formGroup]="form">
+                <div class="flex flex-col gap-2">
+                    <label for="stratum-uri">Stratum URI</label>
+                    <input formControlName="uri" pInputText id="stratum-uri" aria-describedby="stratum-uri-help" />
+                    <!-- <small id="stratum-uri-help">Enter your stratum-uri to reset your password.</small> -->
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="stratum-port">Stratum Port</label>
+                    <p-inputnumber inputId="stratum-port" formControlName="port" aria-describedby="stratum-port-help" />
+                    <!-- <small id="stratum-port-help">Enter your stratum-port to reset your password.</small> -->
+                </div>
+                <div class="flex flex-col gap-2">
+                    <p-checkbox formControlName="withholdBlock" [binary]="true" inputId="wb" />
+                    <label for="wb" class="ml-2">Withold Block</label>
+                </div>
+            </form>
+            <p-button [disabled]="form.invalid" label="Enable Proxy" (click)="enable()"></p-button>
+        </ng-container>
+
+        <p-button *ngIf="listening" label="Disable Proxy" (click)="disable()"></p-button>
+    </div>
+    <div *ngIf="listening" class="col-12">Listening on port 3333</div>
+</div>
+
+<div class="grid">
+    <div class="col-12">
+        <pre class="wrap-text" *ngIf="websocket$ | async as websocketMessages">
+            {{websocketMessages}}
+        </pre>
+    </div>
+</div>

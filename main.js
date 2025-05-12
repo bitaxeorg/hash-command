@@ -1,5 +1,5 @@
 // main.js
-const { app, BaseWindow, WebContentsView } = require('electron')
+const { app, utilityProcess, BaseWindow, WebContentsView } = require('electron')
 const { networkInterfaces } = require('os');
 const { ipcMain } = require('electron');
 
@@ -30,29 +30,29 @@ const createWindow = () => {
     // })
 
     // win.loadURL('http://192.168.1.14/');
-   // win.loadFile(path.join(__dirname, 'public-pool-ui', 'dist', 'public-pool-ui', 'index.html'));
+    // win.loadFile(path.join(__dirname, 'public-pool-ui', 'dist', 'public-pool-ui', 'index.html'));
 
     // win.webContents.on('did-fail-load', () => {
     //     win.loadFile(path.join(__dirname, 'public-pool-ui', 'dist', 'public-pool-ui', 'index.html'));
     // });
 
-    
 
-    win = new BaseWindow({ 
-      width: 1200, 
-      height: 800,
-      autoHideMenuBar: true
+
+    win = new BaseWindow({
+        width: 1200,
+        height: 800,
+        autoHideMenuBar: true
     });
 
     const view1 = new WebContentsView({
         webPreferences: {
-          preload: path.join(__dirname, 'preload.js'),
-          contextIsolation: true,
-          nodeIntegration: false,
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: false,
         }
-      });
+    });
     win.contentView.addChildView(view1);
-    view1.webContents.loadFile(path.join(__dirname,  'dist', 'hash-command','browser', 'index.html'));
+    view1.webContents.loadFile(path.join(__dirname, 'hash-command-ui', 'dist', 'hash-command', 'browser', 'index.html'));
 
     const updateBounds = () => {
         const { width, height } = win.getContentBounds();
@@ -61,13 +61,13 @@ const createWindow = () => {
 
     updateBounds(); // Initial sizing
     win.on('resize', updateBounds); // Update on resize
-    
+
 
     // const view2 = new WebContentsView();
     // win.contentView.addChildView(view2);
     // view2.webContents.loadURL('https://electronjs.org');
     // view2.setBounds({ x: 400, y: 0, width: 400, height: 400 });
-    
+
     // const view3 = new WebContentsView();
     // win.contentView.addChildView(view3);
     // view3.webContents.loadURL('https://github.com/electron/electron');
@@ -88,31 +88,31 @@ const createWindow = () => {
     // });
     // });
 
-    //view1.webContents.openDevTools();
+    view1.webContents.openDevTools();
 }
 
 ipcMain.handle('get-ip-address', () => {
     return getLocalIp();
-  });
+});
 
 function getLocalIp() {
     const nets = networkInterfaces();
     const addresses = [];
     console.log(nets);
     for (const name of Object.keys(nets)) {
-      for (const net of nets[name] || []) {
-        if (net.family === 'IPv4' && !net.internal && net.address != '127.0.0.1') {
-          addresses.push({address: net.address, netmask: net.netmask});
+        for (const net of nets[name] || []) {
+            if (net.family === 'IPv4' && !net.internal && net.address != '127.0.0.1') {
+                addresses.push({ address: net.address, netmask: net.netmask });
+            }
         }
-      }
     }
     return addresses;
-  }
-  
+}
+
 
 
 app.whenReady().then(() => {
-    
+
     setTimeout(() => {
         createWindow();
     }, 3000);
@@ -128,33 +128,33 @@ app.whenReady().then(() => {
     loadSettings().then((env) => {
 
         const serverPath = app.isPackaged ?
-        path.join(process.resourcesPath, 'dist', 'main.js')
-        : path.join(__dirname, 'public-pool', 'dist', 'main.js');
+            path.join(process.resourcesPath, 'dist', 'main.js')
+            : path.join(__dirname, 'hash-command-server', 'dist', 'src', 'main.js');
 
-        Object.assign(process.env, env)
+        Object.assign(process.env, env);
 
-        // const nestProcess = utilityProcess.fork(serverPath);
-    
-        // // nestProcess.stderr.on('data', function(data) {
-        // //     console.log('stdout: ' + data);
-        // // });
-    
-    
-        // // Handle errors from the child process
-        // nestProcess.on('error', (err) => {
-        //     console.error('Failed to start NestJS server process:', err);
-        // });
-    
-        // // Handle exit of the child process
-        // nestProcess.on('exit', (code, signal) => {
-        //     console.log(`NestJS server process exited with code ${code} and signal ${signal}`);
-        // });
-    
-        // nestProcess.on('close', (code) => {
-        //     console.log(`NestJS server process exited with code ${code}`);
-        // });
-    
-    
+        const nestProcess = utilityProcess.fork(serverPath);
+
+        nestProcess.stderr.on('data', function (data) {
+            console.log('stdout: ' + data);
+        });
+
+
+        // Handle errors from the child process
+        nestProcess.on('error', (err) => {
+            console.error('Failed to start NestJS server process:', err);
+        });
+
+        // Handle exit of the child process
+        nestProcess.on('exit', (code, signal) => {
+            console.log(`NestJS server process exited with code ${code} and signal ${signal}`);
+        });
+
+        nestProcess.on('close', (code) => {
+            console.log(`NestJS server process exited with code ${code}`);
+        });
+
+
         // Quit when all windows are closed, except on macOS. There, it's common
         // for applications and their menu bar to stay active until the user quits
         // explicitly with Cmd + Q.
@@ -163,11 +163,11 @@ app.whenReady().then(() => {
                 app.quit();
             }
         });
-    
+
         // app.on('will-quit', () => {
         //     nestProcess.kill();
         // });
-    
+
     });
 })
 
